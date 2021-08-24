@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0).copyWith(bottom: 20),
                       child: MyDataTable(),
                     ),
                   ),
