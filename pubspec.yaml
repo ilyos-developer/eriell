@@ -18,6 +18,7 @@ dependencies:
   fl_chart: ^0.36.4
   data_table_2: ^2.1.1
 
+  dio: ^4.0.0
   flutter_bloc: ^7.2.0
 
 dev_dependencies:
