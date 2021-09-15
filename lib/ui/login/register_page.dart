@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:eriell/ui/home/home_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../constants.dart';
 import 'components/custom_text_field.dart';
+import 'components/custom_text_form_ios.dart';
 import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -58,7 +64,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Platform.isAndroid
+        ? Scaffold(
       body: Center(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -96,12 +103,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     isObscureText: true,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                    margin:
+                    EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.done,
-                      validator: (value) => value!.isEmpty ? 'Пустое поле' : null,
+                      validator: (value) =>
+                      value!.isEmpty ? 'Пустое поле' : null,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(10),
                       ],
@@ -199,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               MaterialPageRoute(
                                 builder: (context) => LoginPage(),
                               ),
-                              (Route<dynamic> route) => false);
+                                  (Route<dynamic> route) => false);
                         },
                         child: Ink(
                           child: Text(
@@ -215,6 +224,116 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    )
+        : CupertinoPageScaffold(
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 82),
+              SvgPicture.asset(
+                "assets/icons/logo.svg",
+                height: 50,
+              ),
+              SizedBox(
+                height: 46,
+              ),
+              CupertinoFormSection(
+                header: Center(
+                  child: Text(
+                    "Регистрация",
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22.0,
+                    ),
+                  ),
+                ),
+                children: [
+                  CustomTextFormField(
+                    title: 'Имя и Фамилия',
+                    controller: _nameController,
+                  ),
+                  CustomTextFormField(
+                    title: 'E-mail',
+                    controller: _emailController,
+                  ),
+                  CustomTextFormField(
+                    title: 'Придумайте пароль',
+                    controller: _passwordController,
+                    isObscureText: true,
+                  ),
+                  CustomTextFormField(
+                    title: 'Телефон',
+                    controller: _phoneController,
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+              CupertinoButton(
+                color: _btnColor
+                    ? kPrimaryColor
+                    : Color.fromRGBO(211, 214, 218, 1),
+                child: Text(
+                  'Зарегистрироваться',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0
+                  ),
+                ),
+                onPressed: () {
+                  if (_nameController.text.isNotEmpty &&
+                      _passwordController.text.isNotEmpty &&
+                      _emailController.text.isNotEmpty &&
+                      _phoneController.text.isNotEmpty) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                          (route) => false,
+                    );
+                  }
+                },
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Регистрируясь, вы принимаете наши Условия,\nПолитику использования данных и Политику\nв отношении файлов cookie.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromRGBO(174, 179, 183, 1),
+                ),
+              ),
+              SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Есть аккаунт?',
+                  ),
+                  TextButton(
+                    child: Text(
+                      'Вход',
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

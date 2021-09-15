@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Platform.isIOS
           ? CupertinoApp(
-              title: 'Eriell App',
+              title: 'Eriell App IOS',
               theme: CupertinoThemeData(
                 scaffoldBackgroundColor: CupertinoColors.white,
                 primaryColor: Colors.blue,

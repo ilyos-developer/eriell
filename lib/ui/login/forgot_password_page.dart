@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../constants.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -36,7 +41,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Platform.isAndroid
+        ? Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -69,7 +75,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    validator: (value) => value!.isEmpty ? 'Пустое поле' : null,
+                    validator: (value) =>
+                    value!.isEmpty ? 'Пустое поле' : null,
                     autofocus: false,
                     decoration: InputDecoration(
                       labelText: 'Введите E-mail',
@@ -115,6 +122,68 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ? Colors.blue
                       : Color.fromRGBO(211, 214, 218, 1),
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    )
+        : CupertinoPageScaffold(
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 82),
+              SvgPicture.asset("assets/icons/logo.svg", height: 50),
+              SizedBox(
+                height: 46,
+              ),
+              Text(
+                'Восстановление доступа',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Введите почту, чтобы получить ссылку\nдля изменения пароля',
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 14),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: CupertinoFormSection(
+                  children: [
+                    CupertinoFormRow(
+                      child: CupertinoTextFormFieldRow(
+                        controller: _emailController,
+                        placeholder: "Введите E-mail",
+                      ),
+                      prefix: Text("E-mail"),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 15),
+              CupertinoButton(
+                color: _btnColor
+                    ? kPrimaryColor
+                    : Color.fromRGBO(211, 214, 218, 1),
+                child: Text(
+                  'Войти',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+                onPressed: () {
+                  if (_emailController.text.isNotEmpty) {
+
+                  }
+                },
               ),
             ],
           ),
