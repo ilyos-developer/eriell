@@ -30,4 +30,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: release-app
-        path: build/app/outputs/apk/release/app-release.app
+        path: build/ios/iphoneos/Runner.app
