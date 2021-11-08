@@ -19,15 +19,19 @@ jobs:
         flutter-version: '2.x'          
         channel: 'stable'
           
-    # Build flutter app
-    - name: Build Flutter App
-      run: |          
-        flutter pub get
-        flutter build apk
-        flutter build ios --release --no-codesign
+    # Build flutter for ios
+    - name: Build iOS App
+      run: |
+        flutter build ios --no-codesign
+        cd build/ios/iphoneos
+        mkdir Payload
+        cd Payload
+        ln -s ../Runner.app
+        cd ..
+        zip -r app.ipa Payload
           
     # Upload generated apk to the artifacts.
     - uses: actions/upload-artifact@v1
       with:
         name: release-app
-        path: build/ios/iphoneos/Runner.app
+        artifacts: 'build/ios/iphoneos/Runner.app,build/ios/iphoneos/app.ipa'
